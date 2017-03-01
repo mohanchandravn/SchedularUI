@@ -48,3 +48,6 @@ for details.
 ## [License](https://github.com/oracle/oraclejet/tree/master/LICENSE.md)
 Copyright (c) 2014, 2016 Oracle and/or its affiliates
 The Universal Permissive License (UPL), Version 1.0
+SchedularUI.git
+
+Temporary repository for the scheduler UI, this code should be merged to the hexicloudAdminUI repository
