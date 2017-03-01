@@ -1,0 +1,353 @@
+<div class="oj-flex" style="padding-left: 50px; margin-top: 40px;">
+    <div class="oj-flex-items #{$selectorPrefix}-align-items-center"> <label for="job_name">Rule Name</label></div>
+    &nbsp; &nbsp; &nbsp;
+    <div class="oj-flex-item"><input id="job_name" 
+                                     type="text" 
+                                     data-bind="ojComponent: {component: 'ojInputText', 
+                                  value:null,
+                      rootAttributes: {
+                                            style:'max-width:30em'}}"/></div>
+</div>
+<div class="oj-flex" style="padding-left: 45px; margin-top: 10px;"> 
+<div class="oj-flex oj-flex-items #{$selectorPrefix}-align-items-center" style="padding-left:5px;visibility: hidden"><label for="job_status_combo">Rule Status</label></div>
+ &nbsp; &nbsp; &nbsp;  
+<div class="oj-flex-item" style="visibility: hidden"><input id="job_status_combo" list="job_status_val" 
+                                     data-bind="ojComponent: {component: 'ojCombobox',
+                                           value:statusVal,
+                                          rootAttributes: { style:'max-width:15em'
+                                          }}"/></div>
+    </div>
+    <datalist id="job_status_val" >
+        <option value="New">New</option>
+        <option value="Stop">Stopped</option>
+        <option value="Running">Running</option>
+    </datalist>
+
+
+    <div class="oj-flex" style="padding-left: 415px; margin-top: 10px;">
+        <input id="submit" type="submit" 
+               data-bind="click:searchClick, 
+                      ojComponent: {component: 'ojButton', label: 'Search'}"/>
+        &nbsp; &nbsp;
+        <input id="reset" type="submit" 
+               data-bind="click:resetClick, 
+                      ojComponent: {component: 'ojButton', label: 'Reset'}"/>
+
+    </div>
+    <br/>
+    <div class="oj-flex" >
+        <div id="myToolbar"
+             data-bind="ojComponent: {component: 'ojToolbar'}">
+            <div class="oj-flex-items #{$selectorPrefix}-align-items-center"> 
+                <input id="add" type="submit" 
+                       data-bind="click:addRow, 
+                      ojComponent: {component: 'ojButton', label: 'Add Rule'}"/>
+            </div>
+            <div class="oj-flex-items #{$selectorPrefix}-align-items-center"> 
+                <input id="edit" type="submit" 
+                       data-bind="click:editRow, 
+                      ojComponent: {component: 'ojButton', label: 'Edit Rule'}"/>
+            </div>
+            <div class="oj-flex-items #{$selectorPrefix}-align-items-center"> 
+                <input id="delete" type="submit" 
+                       data-bind="click:openDeletePopup, 
+                      ojComponent: {component: 'ojButton', label: 'Delete Rule'}"/>
+            </div>
+            <div class="oj-flex-items #{$selectorPrefix}-align-items-center"> 
+                <input id="runnow" type="submit" 
+                       data-bind="click:runJobNow, 
+                      ojComponent: {component: 'ojButton', label: 'Run Rule Now'}"/>
+            </div>
+            <div class="oj-flex-items #{$selectorPrefix}-align-items-center"> 
+                <input id="startjob" type="submit" 
+                       data-bind="click:startJob, 
+                      ojComponent: {component: 'ojButton', label: 'Start Rule'}"/>
+            </div>
+            <div class="oj-flex-items #{$selectorPrefix}-align-items-center"> 
+                <input id="runnow" type="submit" 
+                       data-bind="click:stopJob, 
+                      ojComponent: {component: 'ojButton', label: 'Stop Rule'}"/>
+            </div>
+            <div class="oj-flex-items #{$selectorPrefix}-align-items-center"> 
+                <input id="runnow" type="submit" 
+                       data-bind="click:ruleConfig, 
+                      ojComponent: {component: 'ojButton', label: 'Rule Configuration'}"/>
+            </div>
+        </div>
+    </div>
+    <table id="jobConfigTable" 
+           data-bind="ojComponent: {component: 'ojTable', 
+                                data: pagingConfigDatasource, 
+                                display: 'grid',
+                                dnd: {reorder: {columns: 'enabled'}},
+                                columnsDefault: {sortable: 'enabled'}, 
+                                rootAttributes: {style: 'width:100%;'},
+                                columns: [ 
+                                    {headerText: 'Rule Name', 
+                                           field: 'jobName'},
+                                       {headerText: 'Rule Description', 
+                                           field: 'jobDescription'},                                      
+                                          {headerText: 'Rule Frequency', 
+                                           field: 'jobFreq'}
+                                   ]}">
+    </table>
+    <div id="paging" data-bind="ojComponent: {component: 'ojPagingControl', data: pagingConfigDatasource, pageSize: 5}">
+    </div>
+    <br/>
+    <br/>
+    <div class="oj-flex" >
+        <div id="myToolbar"
+             data-bind="ojComponent: {component: 'ojToolbar'}">
+            <div class="oj-flex-items #{$selectorPrefix}-align-items-center"> 
+                <input id="refresh" type="submit" 
+                       data-bind="click:refreshhistory, 
+                      ojComponent: {component: 'ojButton', label: 'Refresh'}"/>
+            </div>
+        </div>
+    </div>
+    <table id="jobHistoryTable" 
+           data-bind="ojComponent: {component: 'ojTable', 
+                                data: pagingHistoryDatasource, 
+                                display: 'grid',
+                                selectionMode: {row: 'multiple', column: 'multiple'}, 
+                                dnd: {reorder: {columns: 'enabled'}},
+                                columnsDefault: {sortable: 'enabled'}, 
+                                rootAttributes: {style: 'width:100%;'},
+                                columns: [{headerText: 'Start Date', 
+                                           field: 'startDate'},
+                                          {headerText: 'End Date', 
+                                           field: 'endDate'},
+                                          {headerText: 'Rule Status', 
+                                           field: 'jobStatus'},
+                                    {headerText: 'Rule Failed Reason', 
+                                           field: 'jobFailedReason'}
+                                  ]}">
+    </table>
+    <div id="paging" data-bind="ojComponent: {component: 'ojPagingControl', data: pagingHistoryDatasource, pageSize: 5}"></div>
+
+    <div id="ConfirmationDialog">
+        <div style="display:none" id="confirmDialog" title="" 
+             data-bind="ojComponent:{component: 'ojDialog', initialVisibility: 'hide', modality: 'modeless'}">
+            <div class="oj-dialog-body" id="dialogBody">
+                <div  id="messegeText"/>
+            </div>
+            <div class="oj-dialog-footer">
+                <input id="okbtn" type="submit" 
+                       data-bind="click:closeConfirmDialog, 
+                      ojComponent: {component: 'ojButton', label: 'OK'}"/>
+            </div>
+        </div>
+
+
+
+        <div style="display:none"  id="jobDialog" title="Create/Edit Rule" 
+             data-bind="ojComponent:{component: 'ojDialog', initialVisibility: 'hide',cancelBehavior: 'escape', 
+                                 rootAttributes: {
+                                            style:'width:40em'}}">
+            <div class="oj-dialog-body">
+                <div id="div1">
+                    <div class="oj-flex">
+                        <div class="oj-flex-items"> <label for="name">Rule Name</label></div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <div class="oj-flex-item"><input id="name" 
+                                                         type="text"
+                                                         data-bind="ojComponent: {component: 'ojInputText', 
+                                 required: true,value:jobNameValue,
+                      rootAttributes: {
+                                            style:'max-width:30em'}
+                                    }"/>
+                            <div class="oj-messaging-inline-container" aria-live="polite">
+                                <div id="nameVal" class="oj-message oj-message-error" style="display: none;">
+                                    <span class="oj-component-icon oj-message-status-icon oj-message-error-icon" title="Error" role="img"></span>
+                                    <span class="oj-message-content">
+                                        <div class="oj-message-summary">Error</div>
+                                        <div class="oj-message-detail">
+                                            <span>Please Enter Unique Rule Name .</span>
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                            <span id="nameSpan" title="Deferred Error" role="img" 
+                                  class="oj-fwk-icon-status-error oj-fwk-icon"
+                                  data-bind="style: {display: nameDeferred() ? 'inline': 'none'}">
+                            </span>                      
+                        </div>
+
+                    </div>
+                    <div class="oj-flex">
+                        <div class="oj-flex-items"> <label for="job_description">Rule Description</label></div>
+                        &nbsp;
+                        <div class="oj-flex-item"><textarea id="job_description" 
+                                                            style="resize: both;"
+                                                            rows="5"
+                                                            data-bind="ojComponent: {component: 'ojTextArea', required: true,value:jobDescValue,
+                      rootAttributes: {
+                                            style:'max-width:30em'}}"/>
+                            <span id="jobDesc" title="Deferred Error" role="img" 
+                                  class="oj-fwk-icon-status-error oj-fwk-icon"
+                                  data-bind="style: {display: jobDescDeferred() ? 'inline': 'none'}">
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="oj-flex">
+                        <div class="oj-flex-items"> <label for="job_class">Class Name</label></div>
+                        <div class="oj-flex" style="padding-left:28px">
+                            <div class="oj-flex-item"><input id="job_class" 
+                                                             type="text" style="width: 410px"
+                                                             data-bind="ojComponent: {component: 'ojInputText', 
+                                  value:jobClassValue,required: true,
+                      rootAttributes: {
+                                          }}"/>
+
+                                <span id="jobClass" title="Deferred Error" role="img" 
+                                      class="oj-fwk-icon-status-error oj-fwk-icon"
+                                      data-bind="style: {display: jobClassDeferred() ? 'inline': 'none'}">
+                                </span>
+                            </div>
+                        </div>     
+                    </div>
+
+                    <div class="oj-flex">
+                        <div class="oj-flex"> <label for="duration_type">Rule Frequency</label></div>
+                        &nbsp;&nbsp;
+                        <div class="oj-flex oj-flex-items" style="padding-left:17px ">
+                            <div class="oj-flex-item"><input id="combobox" list="duration_type" style="width: 3px;"
+                                                             data-bind="ojComponent: {component: 'ojCombobox',required: true,
+                                           optionChange: durationChangeHandler,
+                                           value:durationValue,
+                                          rootAttributes: {
+                                            }}"/>
+                            </div>
+                            <datalist id="duration_type">
+                                <option value="H">Hour</option>
+                                <option value="D">Day</option>
+                            </datalist>
+                            <div class="oj-flex-item" id="numberParent">
+                                <input id="number" style="width: 2px;"
+                                       data-bind="ojComponent: {component: 'ojCombobox', value: hourDayValue, options: allHours,required: true,disabled:isNumberDisable, 
+                      rootAttributes: {
+                                            }}"/>
+
+                                <span id="numberSpan" title="Deferred Error" role="img" 
+                                      class="oj-fwk-icon-status-error oj-fwk-icon"
+                                      data-bind="style: {display: numberDeferred() ? 'inline': 'none'}">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="oj-flex oj-sm-hide " id="of1"> 
+                    <div class="oj-flex oj-flex-items">
+                        <div class="oj-flex"  for="hours" id="time_label"> <label>Time</label></div>
+                        &nbsp;&nbsp;&nbsp;
+                        <div class="oj-flex oj-flex-items" style="padding-left:70px ">
+                            <div class=" oj-flex-item ">
+                                <input id="hours"  style="width: 2px;"
+                                       data-bind="ojComponent: {component: 'ojCombobox', value: hourVal, options: allHours,required: true,
+                      rootAttributes: {
+                                          }}"/>
+                                <span id="hourSpan" title="Deferred Error" role="img" 
+                                      class="oj-fwk-icon-status-error oj-fwk-icon"
+                                      data-bind="style: {display: hourDeferred() ? 'inline': 'none'}">
+                                </span>
+
+                            </div>
+                            <div class="oj-flex-item "><input id="minutes" style="width: 2px;"
+                                                              data-bind="ojComponent: {component: 'ojCombobox',
+                                  options: allMinutes,   
+                                  value:minVal,
+                                  required: true,
+                                  
+                      rootAttributes: {
+                                           }}"/>
+                                <span id="minuteSpan" title="Deferred Error" role="img" 
+                                      class="oj-fwk-icon-status-error oj-fwk-icon"
+                                      data-bind="style: {display: minuteDeferred() ? 'inline': 'none'}">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+
+
+            <div class="oj-dialog-footer">
+                <input id="saveRun" type="submit" 
+                       data-bind="click:save, 
+                      ojComponent: {component: 'ojButton', label: 'Save'}"/>
+                &nbsp;
+                <input id="saveRun" type="submit" 
+                       data-bind="click:saveRunJob, 
+                      ojComponent: {component: 'ojButton', label: 'Save & Run'}"/>
+                &nbsp;
+                <input id="cancel" type="submit" 
+                       data-bind="click:closePopup, 
+                      ojComponent: {component: 'ojButton', label: 'Cancel'}"/>
+            </div>
+        </div> 
+        <div style="display:none"  id="jobDeleteDialog" title="" 
+             data-bind="ojComponent:{component: 'ojDialog', initialVisibility: 'hide',cancelBehavior: 'escape', 
+                                 rootAttributes: {
+                                            style:'width:40em'}}">
+            <div class="oj-dialog-body">Are you sure you want to delete this Rule ?</div>
+            <div class="oj-dialog-footer">
+                <input id="yesbtn" type="submit" 
+                       data-bind="click:deleteRow, 
+                      ojComponent: {component: 'ojButton', label: 'Yes'}"/>
+                &nbsp;
+                <input id="noBtn" type="submit" 
+                       data-bind="click:closeDeletePopup, 
+                      ojComponent: {component: 'ojButton', label: 'No'}"/>
+            </div>
+
+        </div>
+      <div style="display:none"  id="ruleDialog" title="Edit Rule Configuration" 
+           data-bind="ojComponent:{component: 'ojDialog', initialVisibility: 'hide',cancelBehavior: 'escape', 
+                                 rootAttributes: {
+                                            style:'width:40em'}}">
+          <div class="oj-dialog-body">
+             <div class="oj-form-layout">
+            <div class="oj-form oj-sm-odd-cols-12 oj-md-odd-cols-4 oj-md-labels-inline
+                oj-form-cols-labels-inline oj-form-cols-max2"    >
+          <div class="oj-flex" data-bind="foreach: rulesconfigData">
+                
+                     
+                <div class="oj-flex-item">
+                   <span class="service-instance-count oj-sm-2 oj-flex-item"  data-bind="text: uiLabel, id : 'uiLabel'+uiLabel"></span>
+                </div>
+                
+                <div class="oj-flex-item">
+                    <input class ="ruleValue"  type="text"
+                                                         data-bind="ojComponent: {component: 'ojInputText', 
+                                 required: true,value:ruleValue,id : 'ruleValue'+ruleValue,
+                      rootAttributes: {style:'max-width:30em'} }"/>
+      
+                </div>
+           </div>                
+          </div>
+                 <div class="oj-flex" data-bind="foreach: placeholdersData">
+                     <div class="oj-flex-item"><span class="service-instance-count oj-sm-2 oj-flex-item"> Placeholders </span> </div>          
+                <div class="oj-flex-item">
+                    <label> Code :</label> <span class="service-instance-count oj-sm-2 oj-flex-item"  data-bind="text: placeholderCode, id : 'placeholderCode'+placeholderCode"></span>
+                </div>
+                 <div class="oj-flex-item">
+                   <label> Description :</label> <span class="service-instance-count oj-sm-2 oj-flex-item"  data-bind="text: placeholderDescription, id : 'placeholderDescription'+placeholderDescription"></span>
+                </div>
+              
+           </div> 
+          </div>
+           <div class="oj-dialog-footer">
+                <input id="saveRule" type="submit" 
+                       data-bind="click:saveRuleConfig, 
+                      ojComponent: {component: 'ojButton', label: 'Save'}"/>
+                &nbsp;
+                
+                <input id="cancel" type="submit" 
+                       data-bind="click:closeRulesConfigPopup, 
+                      ojComponent: {component: 'ojButton', label: 'Cancel'}"/>
+            </div>
+          </div>
+           
+      </div>
+      </div>

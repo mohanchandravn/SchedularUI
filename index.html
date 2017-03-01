@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+     <header role="banner" class="oj-web-applayout-header">
+       <title>Scheduler JET project</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                   <div class="oj-web-applayout-max-width oj-flex-bar oj-sm-align-items-center">
+            <div   class="oj-flex " style="padding-top:30px;padding-bottom: 30px;" data-bind="css: smScreen() ? 'oj-flex-bar-center-absolute' : 'oj-flex-bar-middle oj-sm-align-items-baseline'">
+                <div class="oj-flex-item">
+                <img src="css/libs/images/oracle_logo_lrg.png" alt="" />
+                </div>
+                <div class="oj-flex-item" style="padding-left: 5px">
+                        <output id="apName" style="font-weight:600 ;font-size: 18px;color: #454545; ">Scheduler</output>
+                    </div>
+                </div> 
+          </div>
+        <link rel="stylesheet" href="css/libs/oj/v2.1.0/alta/oj-alta-min.css" type="text/css"/>
+        <script data-main="js/main" src="js/libs/require/require.js"></script> 
+     </header>
+    <body>
+        <div id="globalBody" class="oj-web-applayout-offcanvas-wrapper oj-offcanvas-outer-wrapper">
+            <div class="oj-offcanvas-inner-wrapper">
+                <div class="oj-web-applayout-scrollable-wrapper">
+                    <div class="oj-web-applayout-scrollable oj-web-applayout-page">
+<!--                        <header role="banner" class="oj-web-applayout-header" data-bind="ojModule: 'header'" style="box-shadow: 0 3px 3px rgba(0,0,0,0.1);" ></header>-->
+                        <div class="oj-web-applayout-max-width oj-web-applayout-content">
+                            <div class="oj-flex-item oj-flex">
+                                <div id="mainContent" role="main" class="oj-panel  oj-flex-item" data-bind="ojModule: router.moduleConfig" >
+
+                                </div>
+
+                            </div>
+
+                            <div >
+                                <footer role="contentinfo" data-bind="ojModule: 'footer'" style="padding-top: 150px; float: bottom; position: absolute ;bottom: 0px">
+                                </footer>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

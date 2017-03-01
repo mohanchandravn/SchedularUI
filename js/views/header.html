@@ -1,0 +1,64 @@
+<div id="titlebar">
+    <div class="page-width"> 
+        <h1 class="top-org-name">
+            <img alt="Oracle Logo" class="demo-icon-image" border="1" src="Oracle-Logo.png" style="padding: 8px;"/>
+        </h1>
+
+        <button id= "button"
+                data-bind="click: buttonClick1, 
+                       ojComponent: { component: 'ojButton', label: 'Logout',}" style="position: absolute;
+                right: 0px;
+                width: 100px;
+                bottom: 850px;
+                visibility: hidden">
+        </button>
+        
+                        <!--<span data-bind="text: testField"></span>-->
+                        <label id="label" for="menuButton" style="position: absolute;
+                right: 200px;
+                width: 90px;
+                bottom: 860px;"> <strong>Language: </strong></label>
+        <button id="menuButton"
+                data-bind="ojComponent: {component: 'ojButton', label: localeLabel, 
+                      menu: '#myMenu' }" style="position: absolute;
+                right: 100px;
+                width: 110px;
+                bottom: 850px"></button>
+        <ul id="myMenu" 
+            data-bind="ojComponent: {component: 'ojMenu', select: setLang}">
+            <li id="zoomin">
+                <a href="#"><span class="oj-menu-item-icon oj-fwk-icon oj-fwk-icon-arrow-n"></span>?eština</a>
+            </li>
+            
+            <li id="divider"></li>
+            <li id="save">
+                <a href="#"><span class="oj-menu-item-icon demo-icon-font demo-palette-icon-24"></span>English</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id='buttons-container' style="padding: 2em; padding-bottom: 0px; visibility: hidden;">
+<!--    <div id="empButton" data-bind="ojComponent: {component: 'ojButtonset', rootAttributes: {'style':'width: 500px;'}}">
+
+        <button id="myEmp"   data-bind="click: buttonClick"  >MY EMPLOYEE DETAILS</button>
+        <button id="dept" data-bind="click: buttonClick" >DEPARTMENTS</button>
+        <label for="myEmp">MY EMPLOYEE DETAILS</label>
+        <label for="dept">DEPARTMENTS</label>
+        <input type="checkbox" id="myEmp" value="MY EMPLOYEE DETAILS" data-bind="click: buttonClick" checked="buttonClick"/>
+        <input type="checkbox" id="dept" value="DEPARTMENTS" data-bind="click: buttonClick" checked="buttonClick"/>
+        
+
+    </div>-->
+<div id="drinkset" 
+         data-bind="ojComponent: {component: 'ojButtonset', checked: drink, 
+                                  optionChange: buttonClick}"
+         aria-label="Choose only one beverage." style ="visibility: hidden">
+        <!-- ko foreach: drinkRadios -->
+            <label data-bind="attr: {for: id}"></label>                               
+            <input type="radio" name="beverage" 
+                   data-bind="value: id, attr: {id: id}, 
+                              ojComponent: { component: 'ojButton', label: label }" />
+        <!-- /ko -->
+    </div>
+
+</div>
